@@ -20,7 +20,7 @@ setTimeout(() => {
     container.addEventListener('transitionend', () => {
         container.style.display = 'none';
     });
-}, 100);
+}, 1000);
 
 const textarea = document.querySelector("textarea");
 
@@ -201,3 +201,4 @@ textarea.addEventListener("keydown", function (e) {
         input()
     }
 });
+
