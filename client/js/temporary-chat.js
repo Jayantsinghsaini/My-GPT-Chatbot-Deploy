@@ -33,9 +33,28 @@ const md = window.markdownit({
     highlight: function (str, lang) {
         const grammar = Prism.languages[lang] || Prism.languages.markup;
         const highlighted = Prism.highlight(str, grammar, lang);
-        return `<pre  class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>`;
+        return `<pre  class="language-${lang}" onscroll="handleScroll(this)"><button class="copy-btn" onclick="copyCode(this)">copy</button><code class="language-${lang}">${highlighted}</code></pre>`;
     }
 }); 
+
+function handleScroll(preElement) {
+    const button = preElement.querySelector('.copy-btn');
+    if (preElement.scrollLeft > 0) {
+        button.style.display = 'none';
+    } else {
+        button.style.display = 'block';
+    }
+}
+
+function copyCode(button) {
+    const codeBlock = button.nextElementSibling;
+    const text = codeBlock.innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => button.innerText = "Copy", 2000);
+    });
+}
 
 function input() {
     setTimeout(() => {
@@ -58,7 +77,6 @@ function input() {
     const preResponse = document.createElement('div');
     preResponse.id = 'response'; 
     preResponse.innerHTML = '<div id="circle"></div>';
-    preResponse.style.backgroundColor = '#212121'
     Super.appendChild(preResponse); 
      
     fetch('/temp-chat', {
@@ -85,7 +103,6 @@ function input() {
             }
         }, 0);
         
-        preResponse.style.backgroundColor = '#333333'
         Prism.highlightAll();
     })
     .catch(err => console.error(err));
@@ -99,3 +116,4 @@ textarea.addEventListener("keydown", function (e) {
         input()
     }
 });
+
