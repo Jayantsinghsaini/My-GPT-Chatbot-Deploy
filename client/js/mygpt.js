@@ -54,6 +54,7 @@ function copyCode(button) {
         button.innerText = "Copied!";
         setTimeout(() => button.innerText = "Copy", 2000);
     });
+}
 
 fetch('/retrieve-conversation')
     .then(response => {
@@ -217,5 +218,6 @@ textarea.addEventListener("keydown", function (e) {
         input()
     }
 });
+
 
 
